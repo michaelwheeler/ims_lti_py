@@ -59,10 +59,11 @@ class ToolConsumer(LaunchParamsMixin, RequestValidatorMixin, object):
 
         params = self.to_params()
 
-        if not params.get('lit_version', None):
+        if params.get('lit_version', None) is None:
             params['lti_version'] = 'LTI-1.0'
 
-        params['lti_message_type'] = 'basic-lti-launch-request'
+        if params.get('lti_message_type', None) is None:
+            params['lti_message_type'] = 'basic-lti-launch-request'
 
         # Get new OAuth consumer
         consumer = oauth2.Consumer(key = self.consumer_key,\
@@ -75,14 +76,16 @@ class ToolConsumer(LaunchParamsMixin, RequestValidatorMixin, object):
             'oauth_consumer_key': consumer.key
         })
 
-        uri = urlparse.urlparse(self.launch_url)
-        if uri.query != '':
-            for param in uri.query.split('&'):
-                key, val = param.split('=')
-                if params.get(key) == None:
-                    params[key] = str(val)
+        # russomi: Removing since it is causing duplicate id values
+        # to be passed and fails to match the moodle signature...
+        # uri = urlparse.urlparse(self.launch_url)
+        # if uri.query != '':
+        #     for param in uri.query.split('&'):
+        #         key, val = param.split('=')
+        #         if params.get(key) == None:
+        #             params[key] = str(val)
 
-        request = oauth2.Request(method = 'POST', 
+        request = oauth2.Request(method = 'POST',
                 url = self.launch_url,
                 parameters = params)
 
