@@ -59,10 +59,10 @@ class ToolConsumer(LaunchParamsMixin, RequestValidatorMixin, object):
 
         params = self.to_params()
 
-        if params.get('lit_version', None) is None:
+        if params.get('lit_version', None) is not None:
             params['lti_version'] = 'LTI-1.0'
 
-        if params.get('lti_message_type', None) is None:
+        if params.get('lti_message_type', None) is not None:
             params['lti_message_type'] = 'basic-lti-launch-request'
 
         # Get new OAuth consumer
