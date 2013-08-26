@@ -15,7 +15,8 @@ def create_params_tp():
           "custom_param1": "custom1",
           "custom_param2": "custom2",
           "ext_lti_message_type": "extension-lti-launch",
-          "roles": "Learner,Instructor,Observer"
+          "roles": "Learner,Instructor,Observer",
+          "launch_presentation_height": None
     }
 
 def create_test_tp():
@@ -49,7 +50,7 @@ def create_test_tc(params = None):
     '''
     Returns a new ToolConsumer.
     '''
-    params = create_params_tc() if params == None else params
+    params = create_params_tc() if params is None else params
     tc = ToolConsumer('12345', 'secret', params)
     tc.launch_url = 'http://dr-chuck.com/ims/php-simple/tool.php'
     tc.timestamp = '1251600739'

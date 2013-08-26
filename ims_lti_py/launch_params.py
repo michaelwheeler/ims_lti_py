@@ -95,6 +95,8 @@ class LaunchParamsMixin(object):
         'ext_'.
         '''
         for key, val in params.items():
+            if val is None:
+                val = ''
             if key in LAUNCH_DATA_PARAMETERS and val != 'None':
                 if key == 'roles':
                     if isinstance(val, list):

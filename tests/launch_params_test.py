@@ -11,11 +11,12 @@ class DontTestLaunchParams():
             if not 'custom_' in key\
                     and not 'ext_' in key\
                     and not 'roles' in key:
-                self.assertEquals(getattr(self.tool, key), val)
+                # None values should be treated as empty not u'None'
+                self.assertEquals(getattr(self.tool, key), val if val is not None else '')
 
         # Test roles
-        self.assertTrue(sorted(self.tool.roles) == sorted(['learner',\
-                'instructor', 'observer']))
+        self.assertTrue(sorted(self.tool.roles) == sorted(['Learner',\
+                'Instructor', 'Observer']))
 
     def test_custom_extension_parameters(self):
         '''
