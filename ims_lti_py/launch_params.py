@@ -136,13 +136,17 @@ class LaunchParamsMixin(object):
         params = {}
         custom_params = {}
         for key in self.custom_params:
-            custom_params[key] = self.custom_params[key]
+            if self.custom_params[key] is not None:
+                custom_params[key] = self.custom_params[key]
         ext_params = {}
         for key in self.ext_params:
-            ext_params[key] = self.ext_params[key]
+            if self.ext_params[key] is not None:
+                ext_params[key] = self.ext_params[key]
         for key in LAUNCH_DATA_PARAMETERS:
             if hasattr(self, key):
-                params[key] = getattr(self, key)
+                v = getattr(self, key)
+                if v is not None:
+                    params[key] = v
         params.update(custom_params)
         params.update(ext_params)
         return params
